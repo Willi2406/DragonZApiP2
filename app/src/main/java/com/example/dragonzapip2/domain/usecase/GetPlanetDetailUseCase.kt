@@ -6,7 +6,7 @@ import com.example.dragonzapip2.domain.repository.PlanetRepository
 import javax.inject.Inject
 
 
-class GetPlanetsDetailUseCase @Inject constructor(private val repository: PlanetRepository) {
+class GetPlanetDetailUseCase @Inject constructor(private val repository: PlanetRepository) {
     suspend operator fun invoke(id: Int): Resource<PlanetDto> {
         return repository.getPlanetDetail(id)
     }

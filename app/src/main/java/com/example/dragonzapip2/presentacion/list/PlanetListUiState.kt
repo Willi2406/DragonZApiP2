@@ -1,0 +1,11 @@
+package com.example.dragonzapip2.presentacion.list
+
+import com.example.dragonzapip2.domain.model.Planet
+
+data class PlanetListUiState(
+    val isLoading: Boolean = false,
+    val planets: List<Planet> = emptyList(),
+    val error: String? = null,
+    val filterName: String = "",
+    val filterIsDestroyed: Boolean? = null
+)
