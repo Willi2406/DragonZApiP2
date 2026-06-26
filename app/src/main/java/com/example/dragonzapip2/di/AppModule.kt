@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.example.dragonzapip2.data.remote.DragonBallApi
+import com.example.dragonzapip2.data.remote.PlanetRemoteDataSource
 import com.example.dragonzapip2.data.repository.PlanetRepositoryImp
 import com.example.dragonzapip2.domain.repository.PlanetRepository
 import retrofit2.Retrofit
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object AppModule{
+object AppModule {
+
     @Provides
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -29,5 +31,11 @@ object AppModule{
 
     @Provides
     @Singleton
-    fun provideRepository(api: DragonBallApi): PlanetRepository = PlanetRepositoryImp(api)
+    fun providePlanetRemoteDataSource(api: DragonBallApi): PlanetRemoteDataSource =
+        PlanetRemoteDataSource(api)
+
+    @Provides
+    @Singleton
+    fun provideRepository(remoteDataSource: PlanetRemoteDataSource): PlanetRepository =
+        PlanetRepositoryImp(remoteDataSource)
 }

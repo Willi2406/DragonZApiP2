@@ -33,31 +33,33 @@ class PlanetListViewModel @Inject constructor(
 
     private fun loadPlanets(){
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
             val current = _state.value
 
-            val result = getPlanetsUseCase(
+            getPlanetsUseCase(
                 page = 1,
                 limit = 50,
-                name =  current.filterName.takeIf{it.isNotBlank()},
+                name = current.filterName.takeIf { it.isNotBlank() },
                 isDestroyed = current.filterIsDestroyed
-            )
-
-            when(result){
-                is Resource.Success -> {
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            planets = result.data?.map { dto -> dto.toDomain() } ?: emptyList()
-                        )
+            ).collect { result ->
+                when(result){
+                    is Resource.Loading -> {
+                        _state.update { it.copy(isLoading = true, error = null) }
+                    }
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                planets = result.data ?: emptyList(),
+                                error = null
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(isLoading = false, error = result.message)
+                        }
                     }
                 }
-                is Resource.Error -> {
-                    _state.update {
-                        it.copy(isLoading = false, error = result.message)
-                    }
-                }
-                is Resource.Loading -> { }
             }
         }
     }
