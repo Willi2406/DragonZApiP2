@@ -1,4 +1,4 @@
-package com.example.dragonzapip2.presentacion.detail
+package com.example.dragonzapip2.presentacion.planet.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.dragonzapip2.data.remote.Resource
-import com.example.dragonzapip2.domain.usecase.GetPlanetDetailUseCase
+import com.example.dragonzapip2.domain.planet.usecase.GetPlanetDetailUseCase
 import com.example.dragonzapip2.presentacion.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.example.dragonzapip2.presentacion.list
+package com.example.dragonzapip2.presentacion.planet.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,19 +13,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.example.dragonzapip2.domain.model.Planet
+import com.example.dragonzapip2.domain.planet.model.Planet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlanetListScreen(
     viewModel: PlanetListViewModel = hiltViewModel(),
     onPlanetClick: (Int) -> Unit
-){
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Planetas de Dragon Ball") })
+            CenterAlignedTopAppBar(
+                title = { Text("Planetas DBZ") }
+            )
         }
     ) { padding ->
         Column(
@@ -44,12 +46,12 @@ fun PlanetListScreen(
                 ) {
                     OutlinedTextField(
                         value = state.filterName,
-                        onValueChange = {viewModel.onEvent(PlanetListEvent.UpdateFilters(it, state.filterIsDestroyed))},
-                        label = {Text("Nombre del Planeta")},
+                        onValueChange = { viewModel.onEvent(PlanetListEvent.UpdateFilters(it, state.filterIsDestroyed)) },
+                        label = { Text("Nombre del Planeta") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Button(
-                        onClick = {viewModel.onEvent(PlanetListEvent.Search)},
+                        onClick = { viewModel.onEvent(PlanetListEvent.Search) },
                         modifier = Modifier.align(Alignment.End)
                     ) {
                         Text("Buscar")
@@ -57,9 +59,8 @@ fun PlanetListScreen(
                 }
             }
 
-            if(state.isLoading){
-                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
-                {
+            if (state.isLoading) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
@@ -76,8 +77,8 @@ fun PlanetListScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(state.planets){planet ->
-                    PlanetItem(planet = planet, onClick = {onPlanetClick(planet.id)})
+                items(state.planets) { planet ->
+                    PlanetItem(planet = planet, onClick = { onPlanetClick(planet.id) })
                 }
             }
         }
@@ -88,16 +89,16 @@ fun PlanetListScreen(
 fun PlanetItem(
     planet: Planet,
     onClick: () -> Unit
-){
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable{onClick()}
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             AsyncImage(
                 model = planet.image,
                 contentDescription = planet.name,
@@ -107,7 +108,7 @@ fun PlanetItem(
             Column {
                 Text(planet.name, style = MaterialTheme.typography.titleMedium)
                 Text(
-                    text = if(planet.isDestroyed) "Destruido" else "Intacto",
+                    text = if (planet.isDestroyed) "Destruido" else "Intacto",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

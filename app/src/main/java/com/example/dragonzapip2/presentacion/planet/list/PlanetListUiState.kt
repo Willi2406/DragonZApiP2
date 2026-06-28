@@ -1,6 +1,6 @@
-package com.example.dragonzapip2.presentacion.list
+package com.example.dragonzapip2.presentacion.planet.list
 
-import com.example.dragonzapip2.domain.model.Planet
+import com.example.dragonzapip2.domain.planet.model.Planet
 
 data class PlanetListUiState(
     val isLoading: Boolean = false,

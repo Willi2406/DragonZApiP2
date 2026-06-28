@@ -1,4 +1,4 @@
-package com.example.dragonzapip2.presentacion.detail
+package com.example.dragonzapip2.presentacion.planet.detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons

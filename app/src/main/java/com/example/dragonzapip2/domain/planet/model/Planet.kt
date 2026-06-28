@@ -1,4 +1,4 @@
-package com.example.dragonzapip2.domain.model
+package com.example.dragonzapip2.domain.planet.model
 
 data class Planet(
     val id: Int,

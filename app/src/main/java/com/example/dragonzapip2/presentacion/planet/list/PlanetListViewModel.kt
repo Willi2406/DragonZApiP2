@@ -1,10 +1,10 @@
-package com.example.dragonzapip2.presentacion.list
+package com.example.dragonzapip2.presentacion.planet.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.dragonzapip2.data.remote.Resource
-import com.example.dragonzapip2.domain.usecase.GetPlanetsUseCase
+import com.example.dragonzapip2.domain.planet.usecase.GetPlanetsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
