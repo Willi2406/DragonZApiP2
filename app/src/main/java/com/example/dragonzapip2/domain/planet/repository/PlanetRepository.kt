@@ -1,7 +1,7 @@
-package com.example.dragonzapip2.domain.repository
+package com.example.dragonzapip2.domain.planet.repository
 
 import com.example.dragonzapip2.data.remote.Resource
-import com.example.dragonzapip2.domain.model.Planet
+import com.example.dragonzapip2.domain.planet.model.Planet
 import kotlinx.coroutines.flow.Flow
 
 interface PlanetRepository {

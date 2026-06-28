@@ -1,9 +1,9 @@
-package com.example.dragonzapip2.data.repository
+package com.example.dragonzapip2.data.remote.planet.repository
 
-import com.example.dragonzapip2.data.remote.PlanetRemoteDataSource
+import com.example.dragonzapip2.data.remote.planet.PlanetRemoteDataSource
 import com.example.dragonzapip2.data.remote.Resource
-import com.example.dragonzapip2.domain.model.Planet
-import com.example.dragonzapip2.domain.repository.PlanetRepository
+import com.example.dragonzapip2.domain.planet.model.Planet
+import com.example.dragonzapip2.domain.planet.repository.PlanetRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

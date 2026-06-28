@@ -1,6 +1,6 @@
-package com.example.dragonzapip2.data.remote.dto
+package com.example.dragonzapip2.data.remote.planet.dto
 
-import com.example.dragonzapip2.domain.model.Planet
+import com.example.dragonzapip2.domain.planet.model.Planet
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
