@@ -1,8 +1,9 @@
 package com.example.dragonzapip2.presentacion.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
-sealed class Screen {
+sealed class Screen : NavKey {
     @Serializable
     data object PlanetList : Screen()
     @Serializable

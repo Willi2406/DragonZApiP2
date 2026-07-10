@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,9 +17,14 @@ import coil3.compose.AsyncImage
 @Composable
 fun PlanetDetailScreen(
     viewModel: DetailPlanetViewModel = hiltViewModel(),
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    planetId: Int
 ){
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(planetId) {
+        viewModel.loadPlanet(planetId)
+    }
 
     Scaffold(
         topBar = {
