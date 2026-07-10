@@ -5,25 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation3.runtime.rememberNavBackStack
+import com.example.dragonzapip2.presentacion.navigation.ApNavDisplay
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.dragonzapip2.presentacion.navigation.AppNavHost
 import com.example.dragonzapip2.presentacion.navigation.Screen
 import com.example.dragonzapip2.ui.theme.DragonZApiP2Theme
 
@@ -33,56 +27,52 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DragonZApiP2Theme {
-                val navController = rememberNavController()
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentDestination = navBackStackEntry?.destination
+            DragonZApiP2Theme{
+                val backStack = rememberNavBackStack(Screen.PlanetList)
+                val items = listOf(
+                    TopLevelRoute("Planetas", Screen.PlanetList, Icons.Default.Place),
+                    TopLevelRoute("Personajes", Screen.CharacterList, Icons.Default.Face)
+                )
 
-                        NavigationBar {
-                            NavigationBarItem(
-                                selected = currentDestination?.hasRoute<Screen.CharacterList>() == true,
-                                onClick = {
-                                    navController.navigate(Screen.CharacterList) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
+                Scaffold(
+                    bottomBar = {
+                        val currentDestination = backStack.lastOrNull()
+
+                        val isDetail = currentDestination is Screen.PlanetDetail ||
+                                currentDestination is Screen.CharacterDetail
+
+                        if (!isDetail) {
+                            NavigationBar {
+                                items.forEach { item ->
+                                    NavigationBarItem(
+                                        icon = { Icon(item.icono, contentDescription = item.nombre) },
+                                        label = { Text(item.nombre) },
+                                        selected = currentDestination == item.ruta,
+                                        onClick = {
+                                            if (currentDestination != item.ruta) {
+                                                backStack.clear()
+                                                backStack.add(item.ruta)
+                                            }
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                                icon = { Icon(Icons.Default.Person, contentDescription = "Personajes") },
-                                label = { Text("Personajes") }
-                            )
-                            NavigationBarItem(
-                                selected = currentDestination?.hasRoute<Screen.PlanetList>() == true,
-                                onClick = {
-                                    navController.navigate(Screen.PlanetList) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                                icon = { Icon(Icons.Default.Public, contentDescription = "Planetas") },
-                                label = { Text("Planetas") }
-                            )
+                                    )
+                                }
+                            }
                         }
-                    }
+                    },
+                    modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        AppNavHost(navHostController = navController)
-                    }
+                    ApNavDisplay(
+                        backStack = backStack,
+                        innerPadding = innerPadding
+                    )
                 }
             }
         }
     }
 }
+
+data class TopLevelRoute<T : Screen>(
+    val nombre: String,
+    val ruta: T,
+    val icono: ImageVector
+)

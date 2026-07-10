@@ -17,17 +17,11 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailPlanetViewModel @Inject constructor(
     private val getPlanetDetailUseCase: GetPlanetDetailUseCase,
-    savedState: SavedStateHandle
 ): ViewModel(){
     private val _state = MutableStateFlow(DetailPlanetUiState())
     val state = _state.asStateFlow()
 
-    init {
-        val args = savedState.toRoute<Screen.PlanetDetail>()
-        loadPlanet(args.id)
-    }
-
-    private fun loadPlanet(id: Int){
+     fun loadPlanet(id: Int){
         viewModelScope.launch {
             getPlanetDetailUseCase(id).collect { result ->
                 when(result){
